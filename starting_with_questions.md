@@ -5,11 +5,15 @@ Answer the following questions and provide the SQL queries used to find the answ
 
 
 SQL Queries:
+SELECT country,city, totaltransactionrevenue
+FROM public.allsessions
+WHERE totaltransactionrevenue IS NOT null
+ORDER BY totaltransactionrevenue DESC
 
 
 
 Answer:
-
+United States, Atlanta
 
 
 
@@ -18,7 +22,12 @@ Answer:
 
 SQL Queries:
 
-
+SELECT a.country, a.city, AVG(p.orderedquantity) AS avg_orderedquantity
+FROM public.allsessions a
+JOIN public.products p
+ON a.productsku = p.sku
+GROUP BY a.country, a.city
+ORDER BY avg_orderedquantity DESC
 
 Answer:
 
