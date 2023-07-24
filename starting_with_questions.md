@@ -23,8 +23,8 @@ United States, Atlanta
 SQL Queries:
 
 SELECT a.country, a.city, AVG(p.orderedquantity) AS avg_orderedquantity
-FROM public.allsessions a
-JOIN public.products p
+FROM public.newallsession a
+JOIN public.newproducts p
 ON a.productsku = p.sku
 GROUP BY a.country, a.city
 ORDER BY avg_orderedquantity DESC
@@ -39,11 +39,17 @@ Answer:
 
 
 SQL Queries:
-
+SELECT a.country, a.city, a.v2productcategory, count(a.v2productcategory)
+FROM public.newallsession a
+JOIN public.newproducts p
+ON a.productsku = p.sku
+WHERE orderedquantity > 0
+GROUP BY a.country, a.city, a.v2productcategory
+ORDER BY count(a.v2productcategory) DESC
 
 
 Answer:
-
+Most of the orders are from United State and thier city is not available in demo data set
 
 
 
@@ -52,23 +58,34 @@ Answer:
 
 
 SQL Queries:
+SELECT a.country, a.city, a.v2productcategory, count(a.v2productcategory)
+FROM public.newallsession a
+JOIN public.newproducts p
+ON a.productsku = p.sku
+WHERE orderedquantity > 0
+GROUP BY a.country, a.city, a.v2productcategory
+LIMIT 1
 
 
 
 Answer:
-
-
+Home/Bags/ is top selling product from United State.
 
 
 
 **Question 5: Can we summarize the impact of revenue generated from each city/country?**
 
 SQL Queries:
-
+SELECT a.country, a.city, SUM(ana.revenue)
+FROM public.allsessions a
+JOIN public.analytics ana USING(fullvisitorid)
+GROUP BY a.country, a.city
+HAVING SUM(ana.revenue) IS NOT NULL
+ORDER BY SUM(ana.revenue) DESC
 
 
 Answer:
-
+United state has the most revenue
 
 
 
